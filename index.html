@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title> rp++</title>
+	<style>
+.box {
+	margin-top: 0px;
+	margin-left: 0px;
+	width: 10%;
+    text-align: center;
+    line-height: 10px;
+    font-size: 14px;
+}
+.windowMessageAutoSave {
+ 	position:absolute;
+  	left:20%;
+  	top:20%;
+	width: 60%;
+	height: 60%;
+	background-color: #EEE;
+	border: 2px solid #000;
+}
+#resetGameWarning {
+ 	position:absolute;
+  	left:20%;
+  	top:20%;
+	width: 60%;
+	height: 60%;
+	
+	background-color: #EEE;
+	border: 2px solid #000;
+}
+#settingsTable {
+ 	position:absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	height: 30px;
+	background-color: #EEE;
+}
+.settingsTableOption {
+	text-align:center;
+	background-color: #FEFEFE;
+	border: 1px solid #101010;
+	border-radius: 10px 10px 10px 10px;
+}
+	</style>
+	<script>
+		function setCookie(cname,cvalue,exdays){
+			var d = new Date();
+			d.setTime(d.getTime()+(exdays*24*60*60*1000));
+			var expires = "expires="+d.toGMTString();
+			document.cookie = cname+"="+cvalue+"; "+expires;
+		}
+		function getCookie(cname){
+			var name = cname + "=";
+			var ca = document.cookie.split(';');
+			for(var i=0; i<ca.length; i++) {
+				var c = ca[i].trim();
+				if (c.indexOf(name)==0) { return c.substring(name.length,c.length); }
+			}
+			return "";
+		}
+	</script>
+</head>
+
+<body>
+	<!--
+	<div class="windowMessageAutoSave">
+		<div style="height: 24px;width:100%;background-color: rgb(79, 23, 219);">
+			<p style="margin-top:0px;color: #FFF">设置自动保存</p>
+		</div>
+		<p>每<input value=""></input>毫秒保存一次</p>
+		autoSave = setInterval(SaveString(), game.autoSaveTime);
+	</div>
+	-->
+	<div id="resetGameWarning" >
+		<div style="height: 24px;width:100%;background-color: rgb(79, 23, 219);">
+			<p style="margin-top:0px;color: #FFF">重置</p>
+		</div>
+		<p>你真的要重置游戏吗？</p>
+		<p>除非你知道自己在干什么, 否则我不建议你这么做</p>
+		<div style="margin-top:0px;width:3rem;border: 1px solid #000;background-color: aqua;text-align: center;"onclick="ResetGame()">
+			重置
+		</div>
+		<br/>
+		<div style="margin-top:0px;width:3rem;border: 1px solid #000;background-color: aqua;text-align: center;"onclick="hideDiv('resetGameWarning')">
+			取消
+		</div>
+	</div>
+
+	<table id="settingsTable">
+		<tr>
+			<td id="saveStringButton" class="settingsTableOption" onmouseover="moreInformation('display','rpNum')" onmouseout="moreInformation('hide','rpNum')">保存</td>
+			<td id="ResetGame" onclick="showDiv('resetGameWarning')" class="settingsTableOption">重置</td>
+		</tr>
+	</table>
+	<p id="rpNum">NaN</p>
+	<script>
+		hideDiv("resetGameWarning");
+		getEle("saveStringButton").onclick = "SaveString()";
+		getEle("saveStringButton").title = "不用"
+		function moreInformation(Want, Id) {
+			if(Want=='display') {
+			} else {
+			}
+		}
+		function getEle(Name) {
+			return document.getElementById(Name);
+		}
+		function hideDiv(id) {
+			getEle(id).style.left = "-100vw";
+		}
+		
+		function showDiv(id) {
+			getEle(id).style.left = "";
+		} 
+		function ResetGame() {
+			
+			setCookie("RP_STRING","",365);
+			location.reload();
+		}
+		var game = {
+			StringGameVersion: 1.00,
+			rp: 0,
+			rpjc: 0
+		}
+		var cd=getCookie("RP_STRING");
+		if(cd!="") {
+			game=JSON.parse(window.atob(cd));
+			Refresh();
+		} else {
+			//setCookie("cundang",window.atob(JSON.stringify(game)),365);
+		}
+		var flag=0;
+		var myVar = setInterval(
+			function () {
+				game.rp += game.rpjc;
+				Refresh()
+				if(flag) {
+					//hideDiv("resetGameWarning")
+				} else {
+					//showDiv("resetGameWarning")
+				}
+				flag = !flag;
+			}, 
+			1000
+			);
+		var autoSave = setInterval("SaveString()", 1000);
+		function SaveString() {
+			setCookie("RP_STRING",window.btoa(JSON.stringify(game)),365);
+		}
+
+		function Refresh() {
+			document.getElementById("rpNum").innerHTML = 'rp=' + game.rp;
+			var ncd=JSON.stringify(game);
+			//console.log(window.atob(ncd))
+		}
+
+		function func() {
+			game.rp++;
+			Refresh();
+		}
+
+		function newrpjc() {
+			game.rpjc++;
+			Refresh();
+		}
+	</script>
+	<button onclick="func()">rp++</button>
+	<button onclick="newrpjc()">rpjc++</button>
+
+</body>
+
+</html>
