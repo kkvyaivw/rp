@@ -46,6 +46,9 @@
 	border: 1px solid #101010;
 	border-radius: 10px 10px 10px 10px;
 }
+.button {
+	cursor: pointer;
+}
 	</style>
 	<script>
 		function setCookie(cname,cvalue,exdays){
@@ -82,19 +85,19 @@
 		</div>
 		<p>你真的要重置游戏吗？</p>
 		<p>除非你知道自己在干什么, 否则我不建议你这么做</p>
-		<div style="margin-top:0px;width:3rem;border: 1px solid #000;background-color: aqua;text-align: center;"onclick="ResetGame()">
+		<div class="button" style="margin-top:0px;width:3rem;border: 1px solid #000;background-color: aqua;text-align: center;"onclick="ResetGame()">
 			重置
 		</div>
 		<br/>
-		<div style="margin-top:0px;width:3rem;border: 1px solid #000;background-color: aqua;text-align: center;"onclick="hideDiv('resetGameWarning')">
+		<div class="button" style="margin-top:0px;width:3rem;border: 1px solid #000;background-color: aqua;text-align: center;"onclick="hideDiv('resetGameWarning')">
 			取消
 		</div>
 	</div>
 
 	<table id="settingsTable">
 		<tr>
-			<td id="saveStringButton" class="settingsTableOption" onmouseover="moreInformation('display','rpNum')" onmouseout="moreInformation('hide','rpNum')">保存</td>
-			<td id="ResetGame" onclick="showDiv('resetGameWarning')" class="settingsTableOption">重置</td>
+			<td id="saveStringButton" class="button settingsTableOption" onmouseover="moreInformation('display','rpNum')" onmouseout="moreInformation('hide','rpNum')">保存</td>
+			<td id="ResetGame" onclick="showDiv('resetGameWarning')" class="button settingsTableOption">重置</td>
 		</tr>
 	</table>
 	<p id="rpNum">NaN</p>
@@ -159,7 +162,7 @@
 			//console.log(window.atob(ncd))
 		}
 
-		function func() {
+		function func() { 
 			game.rp++;
 			Refresh();
 		}
